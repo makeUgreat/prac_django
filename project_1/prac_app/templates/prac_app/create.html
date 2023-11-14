@@ -9,14 +9,16 @@
     <h1>NEW</h1>
     <form action="{% url "prac_app:create" %}" method="POST">
         {% csrf_token %}
-        <div>
+        {{ form.as_p }}
+
+        {% comment %} <div>
             <label for="title">Title: </label>
             <input type="text" name="input_title" id="title">
         </div>
         <div>
             <label for="content">Content: </label>
             <input type="text" name="input_content" id="content">
-        </div>
+        </div> {% endcomment %}
         <input type="submit">
     </form>
     <hr>

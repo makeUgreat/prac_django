@@ -6,6 +6,36 @@
     <title>Document</title>
 </head>
 <body>
+    {% if request.user.is_authenticated %}
+    <p>
+        <h1>
+            안녕하세요 {{user.username}} 님!
+        </h1>
+    </p>
+    <div>
+        <a href="{% url "accounts:update" %}">
+            <button>회원정보 수정</button>
+        </a>
+    </div>
+    <a href="{% url "accounts:cancelAccount" %}">
+        <button>회원탈퇴</button>
+    </a>
+    <div>
+        <a href="{% url "accounts:logout" %}">logout</a>
+
+    </div>
+    {% else %}
+    <h3>로그인이 필요해요!</h3>
+    <a href="{% url "accounts:login" %}">
+        <button>로그인</button>
+    </a>
+    <div>
+        <a href="{% url "accounts:signup" %}">
+            <button>회원가입</button>
+        </a>
+    </div>
+    {% endif %}
+    <hr>
     <h1> 전체 게시물 목록 </h1>
     <hr>
     {% for article in articles  %}
@@ -17,7 +47,7 @@
         <hr>
     {% endfor %}
 
-    <a href="{% url "prac_app:new" %}">
+    <a href="{% url "prac_app:create" %}">
         <button>게시물작성</button>
     </a>
 </body>

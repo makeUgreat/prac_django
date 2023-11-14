@@ -9,14 +9,15 @@
     <h1>EDIT</h1>
     <form action="{% url "prac_app:update" article.pk %}" method="POST">
         {% csrf_token %}
-        <div>
+        {{ form.as_p}}
+        {% comment %} <div>
             <label for="title">Title:</label>
             <input type="text" name="data_title" id="title" value={{article.title}}>
         </div>
         <div>
             <label for="content">Content:</label>
             <textarea name="data_content" id="content">{{article.content}}</textarea>
-        </div>
+        </div> {% endcomment %}
         <input type="submit" value="제출">
     </form>
     <hr>
