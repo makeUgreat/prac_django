@@ -10,6 +10,7 @@
     <h1>DETAIL</h1>
     <h2>{{article.pk}} 번째 글</h2>
     <hr>
+    <p>작성자 : {{article.user}} </p>
     <p>제목 : {{article.title}}</p>
     <p>내용 : {{article.content}}</p>
     <p>작성 시간 : {{article.created_at}}</p> 
@@ -17,15 +18,39 @@
 
     <hr>
     <div>
+        {% if request.user == article.user %}
         <a href="{% url "prac_app:update" article.pk%}">
             <button>수정하기</button>
         </a>
-    </div>
-    <div>
         <form action="{% url "prac_app:delete" article.pk %}" method="POST">
             {% csrf_token %}
             <input type="submit" value="게시물삭제">
         </form>
+        <hr>
+        {% endif %}
+    </div>
+    <div>
+        <form action="{% url "prac_app:comments_create" article.pk%}" method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit">
+        </form>
+    </div>
+    <hr>
+    <div>
+        <ul>
+            <p>총 {{comments|length}}개의 댓글이 달렸어요</p>
+            {% for comment in comments %}
+                <li>{{comment.content}} ----- [작성자: {{comment.user}}]
+                    {% if request.user == comment.user %}
+                    <form action="{% url "prac_app:comments_delete" article.pk comment.pk %}" method="POST">
+                        {% csrf_token %}
+                        <input type="submit" value="삭제">
+                    </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
     </div>
     <div>
         <a href="{% url "prac_app:index" %}">
